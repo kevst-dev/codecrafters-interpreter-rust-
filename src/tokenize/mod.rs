@@ -16,15 +16,40 @@ pub fn tokenize(file_contents: String) -> Vec<Token> {
 }
 
 #[test]
-fn test_tokenize() {
+fn test_tokenize_parentheses() {
     let file_contents = String::from("(()");
     let tokens = tokenize(file_contents);
 
+    let expected_tokens = vec![
+        Token::new(TokenType::LeftParen, "(".to_string(), None, 1),
+        Token::new(TokenType::LeftParen, "(".to_string(), None, 1),
+        Token::new(TokenType::RightParen, ")".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+}
+
+#[test]
+fn test_tokenize_brackets() {
+    let file_contents = String::from("{{}}");
+    let tokens = tokenize(file_contents);
+
+    /*
     let tokens_msg = tokens
         .iter()
         .map(|token| token.to_string())
         .collect::<Vec<String>>()
         .join("\n");
+    */
 
-    println!("AUII {}", tokens_msg);
+    let expected_tokens = vec![
+        Token::new(TokenType::LeftBrace, "{".to_string(), None, 1),
+        Token::new(TokenType::LeftBrace, "{".to_string(), None, 1),
+        Token::new(TokenType::RightBrace, "}".to_string(), None, 1),
+        Token::new(TokenType::RightBrace, "}".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
 }
