@@ -53,3 +53,24 @@ fn test_tokenize_brackets() {
 
     assert_eq!(tokens, expected_tokens);
 }
+
+#[test]
+fn test_tokenize_single_chars() {
+    let file_contents = String::from("({*.,+*})");
+    let tokens = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::LeftParen, "(".to_string(), None, 1),
+        Token::new(TokenType::LeftBrace, "{".to_string(), None, 1),
+        Token::new(TokenType::Star, "*".to_string(), None, 1),
+        Token::new(TokenType::Dot, ".".to_string(), None, 1),
+        Token::new(TokenType::Comma, ",".to_string(), None, 1),
+        Token::new(TokenType::Plus, "+".to_string(), None, 1),
+        Token::new(TokenType::Star, "*".to_string(), None, 1),
+        // Token::new(TokenType::RightBrace, "}".to_string(), None, 1),
+        Token::new(TokenType::RightParen, ")".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+}
