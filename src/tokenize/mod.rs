@@ -103,3 +103,21 @@ fn test_tokenize_single_chars_with_unexpected_chars() {
     assert_eq!(tokens, expected_tokens);
     assert_eq!(token_errors, expected_token_errors);
 }
+
+#[test]
+fn test_tokenize_operators_chars() {
+    let file_contents = String::from("={===}");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::Equal, "=".to_string(), None, 1),
+        Token::new(TokenType::LeftBrace, "{".to_string(), None, 1),
+        Token::new(TokenType::EqualEqual, "==".to_string(), None, 1),
+        Token::new(TokenType::Equal, "=".to_string(), None, 1),
+        Token::new(TokenType::RightBrace, "}".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}

@@ -1,7 +1,7 @@
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum TokenType {
-    // Single-character tokens.
+    // Single-character tokens
 
     LeftParen,   // is '('
     RightParen,  // is ')'
@@ -15,18 +15,16 @@ pub enum TokenType {
     // Slash,    // is '/'
     Star,        // is '*'
 
-    // One or two character tokens.
+    // Operator tokens
 
-    /*
-    BANG,           // is '!'
-    BANG_EQUAL,     // is '!='
-    EQUAL,          // is '='
-    EQUAL_EQUAL,    // is '=='
-    GREATER,        // is '>'
-    GREATER_EQUAL,  // is '>='
-    LESS,           // is '<'
-    LESS_EQUAL,     // is '<='
-    */
+    Bang,           // is '!'
+    BangEqual,     // is '!='
+    Equal,          // is '='
+    EqualEqual,    // is '=='
+    Greater,        // is '>'
+    GreaterEqual,  // is '>='
+    Less,           // is '<'
+    LessEqual,     // is '<='
 
     // Literals.
 
@@ -77,6 +75,15 @@ impl fmt::Display for TokenType {
             TokenType::Semicolon => write!(f, "SEMICOLON"),
             // TokenType::Slash => write!(f, "SLASH"),
             TokenType::Star => write!(f, "STAR"),
+
+            TokenType::Bang => write!(f, "BANG"),
+            TokenType::BangEqual => write!(f, "BANG_EQUAL"),
+            TokenType::Equal => write!(f, "EQUAL"),
+            TokenType::EqualEqual => write!(f, "EQUAL_EQUAL"),
+            TokenType::Greater => write!(f, "GREATER"),
+            TokenType::GreaterEqual => write!(f, "GREATER_EQUAL"),
+            TokenType::Less => write!(f, "LESS"),
+            TokenType::LessEqual => write!(f, "LESS_EQUAL"),
 
             TokenType::Eof => write!(f, "EOF"),
         }

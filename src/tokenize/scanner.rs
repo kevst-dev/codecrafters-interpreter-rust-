@@ -45,6 +45,11 @@ impl Scanner {
         self.tokens.clone()
     }
 
+    pub fn token_errors(&self) -> Vec<TokenizerError> {
+        self.token_errors.clone()
+    }
+
+
     fn is_at_end(&self) -> bool {
         self.current >= self.source.len() as u32
     }
@@ -53,6 +58,9 @@ impl Scanner {
         let c = self.advance();
 
         match c {
+
+            // Single-character tokens
+
             '(' => self.add_token(TokenType::LeftParen, None),
             ')' => self.add_token(TokenType::RightParen, None),
             '{' => self.add_token(TokenType::LeftBrace, None),
@@ -63,6 +71,42 @@ impl Scanner {
             '+' => self.add_token(TokenType::Plus, None),
             ';' => self.add_token(TokenType::Semicolon, None),
             '*' => self.add_token(TokenType::Star, None),
+
+            // Operator tokens
+
+            '!' => {
+                let token_type = if self.match_char('=') {
+                    TokenType::BangEqual
+                } else {
+                    TokenType::Bang
+                };
+                self.add_token(token_type, None);
+            }
+            '=' => {
+                let token_type = if self.match_char('=') {
+                    TokenType::EqualEqual
+                } else {
+                    TokenType::Equal
+                };
+                self.add_token(token_type, None);
+            }
+            '<' => {
+                let token_type = if self.match_char('=') {
+                    TokenType::LessEqual
+                } else {
+                    TokenType::Less
+                };
+                self.add_token(token_type, None);
+            }
+            '>' => {
+                let token_type = if self.match_char('=') {
+                    TokenType::GreaterEqual
+                } else {
+                    TokenType::Greater
+                };
+                self.add_token(token_type, None);
+            }
+
             '\n' => self.line += 1,
             ' ' | '\r' | '\t' => { /* ignore whitespace */ },
             _ => {
@@ -93,10 +137,6 @@ impl Scanner {
         );
     }
 
-    pub fn token_errors(&self) -> Vec<TokenizerError> {
-        self.token_errors.clone()
-    }
-
     fn add_token_error(&mut self, message: String) {
         self.token_errors.push(
             TokenizerError::new(
@@ -104,5 +144,16 @@ impl Scanner {
                 message
             )
         );
+    }
+
+    fn match_char(&mut self, expected: char) -> bool {
+        let index = self.current as usize;
+        let c = self.source[index..index + 1].to_string();
+
+        if self.is_at_end() { return false; }
+        if c != expected.to_string() { return false; }
+
+        self.current += 1;
+        true
     }
 }
