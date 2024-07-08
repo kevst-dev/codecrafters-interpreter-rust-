@@ -71,6 +71,16 @@ impl Scanner {
             '+' => self.add_token(TokenType::Plus, None),
             ';' => self.add_token(TokenType::Semicolon, None),
             '*' => self.add_token(TokenType::Star, None),
+            '/' => {
+                if self.match_char('/') {
+                    // A comment goes until the end of the line.
+                    while self.peek() != '\n' && !self.is_at_end() {
+                        self.advance();
+                    }
+                } else {
+                    self.add_token(TokenType::Slash, None);
+                }
+            }
 
             // Operator tokens
 
@@ -149,7 +159,6 @@ impl Scanner {
     fn match_char(&mut self, expected: char) -> bool {
         let index = self.current as usize;
 
-
         if self.is_at_end() { return false; }
 
         let c = self.source[index..index + 1].to_string();
@@ -157,5 +166,11 @@ impl Scanner {
 
         self.current += 1;
         true
+    }
+
+    fn peek(&self) -> char {
+        if self.is_at_end() { return '\0'; }
+
+        self.source.chars().nth(self.current as usize).unwrap()
     }
 }

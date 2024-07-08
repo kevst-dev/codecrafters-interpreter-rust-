@@ -12,19 +12,19 @@ pub enum TokenType {
     Minus,       // is '-'
     Plus,        // is '+'
     Semicolon,   // is ';'
-    // Slash,    // is '/'
+    Slash,       // is '/'
     Star,        // is '*'
 
     // Operator tokens
 
     Bang,           // is '!'
-    BangEqual,     // is '!='
+    BangEqual,      // is '!='
     Equal,          // is '='
-    EqualEqual,    // is '=='
+    EqualEqual,     // is '=='
     Greater,        // is '>'
-    GreaterEqual,  // is '>='
+    GreaterEqual,   // is '>='
     Less,           // is '<'
-    LessEqual,     // is '<='
+    LessEqual,      // is '<='
 
     // Literals.
 
@@ -73,7 +73,7 @@ impl fmt::Display for TokenType {
             TokenType::Minus => write!(f, "MINUS"),
             TokenType::Plus => write!(f, "PLUS"),
             TokenType::Semicolon => write!(f, "SEMICOLON"),
-            // TokenType::Slash => write!(f, "SLASH"),
+            TokenType::Slash => write!(f, "SLASH"),
             TokenType::Star => write!(f, "STAR"),
 
             TokenType::Bang => write!(f, "BANG"),
