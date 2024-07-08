@@ -105,6 +105,26 @@ fn test_tokenize_single_chars_with_unexpected_chars() {
 }
 
 #[test]
+fn test_tokenize_single_chars_with_unexpected_chars_multi_lines() {
+    let file_contents = String::from("# (\n)\t@");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::LeftParen, "(".to_string(), None, 1),
+        Token::new(TokenType::RightParen, ")".to_string(), None, 2),
+        Token::new(TokenType::Eof, "".to_string(), None, 2),
+    ];
+
+    let expected_token_errors = vec![
+        TokenizerError::new(1, "Unexpected character: #".to_string()),
+        TokenizerError::new(2, "Unexpected character: @".to_string()),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, expected_token_errors);
+}
+
+#[test]
 fn test_tokenize_operators_single_equal() {
     let file_contents = String::from("=");
     let (tokens, token_errors) = tokenize(file_contents);
