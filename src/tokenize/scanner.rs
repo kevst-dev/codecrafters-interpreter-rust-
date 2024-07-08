@@ -128,7 +128,7 @@ impl Scanner {
     }
 
     fn advance(&mut self) -> char {
-        let c = self.source.chars().nth(self.current as usize).unwrap();
+        let c = self.source.chars().nth(self.current as usize).unwrap_or('\0');
         self.current += 1;
 
         c
@@ -171,6 +171,6 @@ impl Scanner {
     fn peek(&self) -> char {
         if self.is_at_end() { return '\0'; }
 
-        self.source.chars().nth(self.current as usize).unwrap()
+        self.source.chars().nth(self.current as usize).unwrap_or('\0')
     }
 }
