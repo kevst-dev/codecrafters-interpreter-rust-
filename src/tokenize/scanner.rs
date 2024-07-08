@@ -1,13 +1,16 @@
-use crate::tokenize::{Token, TokenType};
+use crate::tokenize::{Token, TokenType, TokenizerError};
 
 #[derive(Debug)]
 pub struct Scanner {
     source: String,
     tokens: Vec<Token>,
+    token_errors: Vec<TokenizerError>,
 
     start: u32,
     current: u32,
     line: u32,
+
+
 }
 
 #[allow(dead_code)]
@@ -16,6 +19,7 @@ impl Scanner {
         Self {
             source,
             tokens: Vec::new(),
+            token_errors: Vec::new(),
 
             start: 0,
             current: 0,
@@ -59,7 +63,13 @@ impl Scanner {
             '+' => self.add_token(TokenType::Plus, None),
             ';' => self.add_token(TokenType::Semicolon, None),
             '*' => self.add_token(TokenType::Star, None),
-            _ => {}
+            '\n' => self.line += 1,
+            ' ' | '\r' | '\t' => { /* ignore whitespace */ },
+            _ => {
+                self.add_token_error(
+                    format!("Unexpected character: {}", c)
+                );
+            }
         }
     }
 
@@ -79,6 +89,19 @@ impl Scanner {
                 text,
                 literal,
                 self.line
+            )
+        );
+    }
+
+    pub fn token_errors(&self) -> Vec<TokenizerError> {
+        self.token_errors.clone()
+    }
+
+    fn add_token_error(&mut self, message: String) {
+        self.token_errors.push(
+            TokenizerError::new(
+                self.line,
+                message
             )
         );
     }

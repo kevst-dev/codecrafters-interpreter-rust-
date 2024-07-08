@@ -25,14 +25,26 @@ fn main() {
                 String::new()
             });
 
-            let tokens = tokenize(file_contents);
+            let (tokens, token_errors) = tokenize(file_contents);
+
+            // imprimiendo en la salida estandar los tokens
             let tokens_msg = tokens
                 .iter()
                 .map(|token| token.to_string())
                 .collect::<Vec<String>>()
                 .join("\n");
-
             println!("{}", tokens_msg);
+
+            // imprimiendo en stderr los errores
+            let token_errors_msg = token_errors
+                .iter()
+                .map(|token_error| token_error.to_string())
+                .collect::<Vec<String>>()
+                .join("\n");
+
+            if !token_errors_msg.is_empty() {
+                eprintln!("{}", token_errors_msg);
+            }
 
         }
         _ => {
