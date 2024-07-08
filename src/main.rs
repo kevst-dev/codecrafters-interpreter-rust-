@@ -26,6 +26,7 @@ fn main() {
             });
 
             let (tokens, token_errors) = tokenize(file_contents);
+            let mut exit_code = 0; // codigo de salida correcto
 
             // imprimiendo en la salida estandar los tokens
             let tokens_msg = tokens
@@ -44,7 +45,10 @@ fn main() {
 
             if !token_errors_msg.is_empty() {
                 eprintln!("{}", token_errors_msg);
+                exit_code = 65;
             }
+
+            std::process::exit(exit_code);
 
         }
         _ => {
