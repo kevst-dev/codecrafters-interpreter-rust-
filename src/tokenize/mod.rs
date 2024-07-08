@@ -196,3 +196,19 @@ fn test_tokenize_slash_comment() {
     assert_eq!(tokens, expected_tokens);
     assert_eq!(token_errors, vec![]);
 }
+
+#[test]
+fn test_tokenize_whitespaces() {
+    let file_contents = String::from("(\t\n)");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::LeftParen, "(".to_string(), None, 1),
+        Token::new(TokenType::RightParen, ")".to_string(), None, 2),
+        Token::new(TokenType::Eof, "".to_string(), None, 2),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}
+
