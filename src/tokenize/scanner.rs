@@ -230,6 +230,7 @@ impl Scanner {
         let value = self.source[
             (self.start as usize)..(self.current as usize)
         ].to_string();
-        self.add_token(TokenType::Number, Some(value));
+        let float_value = value.parse::<f64>().unwrap();
+        self.add_token(TokenType::Number, Some(float_value.to_string()));
     }
 }
