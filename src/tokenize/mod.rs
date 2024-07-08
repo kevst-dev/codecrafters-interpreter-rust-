@@ -105,7 +105,21 @@ fn test_tokenize_single_chars_with_unexpected_chars() {
 }
 
 #[test]
-fn test_tokenize_operators_chars() {
+fn test_tokenize_operators_single_equal() {
+    let file_contents = String::from("=");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::Equal, "=".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}
+
+#[test]
+fn test_tokenize_operators_chars_1() {
     let file_contents = String::from("={===}");
     let (tokens, token_errors) = tokenize(file_contents);
 
@@ -123,12 +137,14 @@ fn test_tokenize_operators_chars() {
 }
 
 #[test]
-fn test_tokenize_operators_single_equal() {
-    let file_contents = String::from("=");
+fn test_tokenize_operators_chars_2() {
+    let file_contents = String::from("!!===");
     let (tokens, token_errors) = tokenize(file_contents);
 
     let expected_tokens = vec![
-        Token::new(TokenType::Equal, "=".to_string(), None, 1),
+        Token::new(TokenType::Bang, "!".to_string(), None, 1),
+        Token::new(TokenType::BangEqual, "!=".to_string(), None, 1),
+        Token::new(TokenType::EqualEqual, "==".to_string(), None, 1),
         Token::new(TokenType::Eof, "".to_string(), None, 1),
     ];
 
