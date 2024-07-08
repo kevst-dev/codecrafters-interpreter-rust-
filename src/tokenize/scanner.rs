@@ -148,9 +148,11 @@ impl Scanner {
 
     fn match_char(&mut self, expected: char) -> bool {
         let index = self.current as usize;
-        let c = self.source[index..index + 1].to_string();
+
 
         if self.is_at_end() { return false; }
+
+        let c = self.source[index..index + 1].to_string();
         if c != expected.to_string() { return false; }
 
         self.current += 1;
