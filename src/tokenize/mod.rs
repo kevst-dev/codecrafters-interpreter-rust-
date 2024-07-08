@@ -20,6 +20,8 @@ pub fn tokenize(file_contents: String) -> (Vec<Token>, Vec<TokenizerError>) {
     (tokens, token_errors)
 }
 
+use pretty_assertions::assert_eq;
+
 #[test]
 fn test_tokenize_parentheses() {
     let file_contents = String::from("(()");
@@ -264,6 +266,22 @@ fn test_tokenize_number() {
             Some(1234.1234),
             1
         ),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}
+
+#[test]
+fn test_tokenize_identifiers() {
+    let file_contents = String::from("foo bar _hello");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::Identifier, "foo".to_string(), None, 1),
+        Token::new(TokenType::Identifier, "bar".to_string(), None, 1),
+        Token::new(TokenType::Identifier, "_hello".to_string(), None, 1),
         Token::new(TokenType::Eof, "".to_string(), None, 1),
     ];
 

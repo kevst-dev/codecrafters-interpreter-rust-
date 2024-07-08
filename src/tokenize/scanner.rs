@@ -123,8 +123,8 @@ impl Scanner {
             // Literals
 
             '"' => self.string(),
-
             '0'..='9' => self.number(),
+            'a'..='z' | 'A'..='Z' | '_' => self.identifier(),
 
             _ => {
                 self.add_token_error(
@@ -245,5 +245,13 @@ impl Scanner {
         ].to_string();
         let float_value = value.parse::<f64>().unwrap();
         self.add_token_number(TokenType::Number, Some(float_value));
+    }
+
+    fn identifier(&mut self) {
+        while self.peek().is_alphanumeric() || self.peek() == '_' {
+            self.advance();
+        }
+
+        self.add_token(TokenType::Identifier, None);
     }
 }
