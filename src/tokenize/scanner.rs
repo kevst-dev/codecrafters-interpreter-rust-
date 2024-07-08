@@ -154,6 +154,19 @@ impl Scanner {
         );
     }
 
+    fn add_token_number(&mut self, token_type: TokenType, literal: Option<f64>) {
+        let text = self.source[self.start as usize..self.current as usize].to_string();
+
+        self.tokens.push(
+            Token::new_number(
+                token_type,
+                text,
+                literal,
+                self.line
+            )
+        );
+    }
+
     fn add_token_error(&mut self, message: String) {
         self.token_errors.push(
             TokenizerError::new(
@@ -231,6 +244,6 @@ impl Scanner {
             (self.start as usize)..(self.current as usize)
         ].to_string();
         let float_value = value.parse::<f64>().unwrap();
-        self.add_token(TokenType::Number, Some(float_value.to_string()));
+        self.add_token_number(TokenType::Number, Some(float_value));
     }
 }

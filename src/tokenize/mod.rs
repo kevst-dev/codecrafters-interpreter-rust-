@@ -258,10 +258,10 @@ fn test_tokenize_number() {
     let (tokens, token_errors) = tokenize(file_contents);
 
     let expected_tokens = vec![
-        Token::new(
+        Token::new_number(
             TokenType::Number,
             "1234.1234".to_string(),
-            Some("1234.1234".to_string()),
+            Some(1234.1234),
             1
         ),
         Token::new(TokenType::Eof, "".to_string(), None, 1),
