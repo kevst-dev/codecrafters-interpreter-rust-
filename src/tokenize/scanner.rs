@@ -1,5 +1,8 @@
 use crate::tokenize::{Token, TokenType, TokenizerError};
 
+use std::collections::HashMap;
+
+
 #[derive(Debug)]
 pub struct Scanner {
     source: String,
@@ -9,8 +12,6 @@ pub struct Scanner {
     start: u32,
     current: u32,
     line: u32,
-
-
 }
 
 #[allow(dead_code)]
@@ -252,6 +253,30 @@ impl Scanner {
             self.advance();
         }
 
-        self.add_token(TokenType::Identifier, None);
+        let text = self.source[
+            (self.start as usize)..(self.current as usize)
+        ].to_string();
+
+        let token_type = match text.as_str() {
+            "and" => TokenType::And,
+            "class" => TokenType::Class,
+            "else" => TokenType::Else,
+            "false" => TokenType::False,
+            "fun" => TokenType::Fun,
+            "for" => TokenType::For,
+            "if" => TokenType::If,
+            "nil" => TokenType::Nil,
+            "or" => TokenType::Or,
+            "print" => TokenType::Print,
+            "return" => TokenType::Return,
+            "super" => TokenType::Super,
+            "this" => TokenType::This,
+            "true" => TokenType::True,
+            "var" => TokenType::Var,
+            "while" => TokenType::While,
+            _ => TokenType::Identifier
+        };
+
+        self.add_token(token_type, None);
     }
 }

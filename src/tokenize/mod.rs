@@ -288,3 +288,19 @@ fn test_tokenize_identifiers() {
     assert_eq!(tokens, expected_tokens);
     assert_eq!(token_errors, vec![]);
 }
+
+#[test]
+fn test_tokenize_keywords() {
+    let file_contents = String::from("if else return");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(TokenType::If, "if".to_string(), None, 1),
+        Token::new(TokenType::Else, "else".to_string(), None, 1),
+        Token::new(TokenType::Return, "return".to_string(), None, 1),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}

@@ -35,24 +35,22 @@ pub enum TokenType {
 
     // Keywords.
 
-    /*
-    AND,     // is 'and',
-    CLASS,   // is 'class',
-    ELSE,    // is 'else',
-    FALSE,   // is 'false',
-    FUN,     // is 'fun',
-    FOR,     // is 'for',
-    IF,      // is 'if',
-    NIL,     // is 'nil' value,
-    OR,      // is 'or',
-    PRINT,   // is 'print',
-    RETURN,  // is 'return',
-    SUPER,   // is 'super',
-    THIS,    // is 'this',
-    TRUE,    // is 'true',
-    VAR,     // is 'var',
-    WHILE,   // is 'while',
-    */
+    And,
+    Class,
+    Else,
+    False,
+    Fun,
+    For,
+    If,
+    Nil,
+    Or,
+    Print,
+    Return,
+    Super,
+    This,
+    True,
+    Var,
+    While,
 
     Eof // is end of file
 }
@@ -87,6 +85,23 @@ impl fmt::Display for TokenType {
             TokenType::Identifier => write!(f, "IDENTIFIER"),
             TokenType::String => write!(f, "STRING"),
             TokenType::Number => write!(f, "NUMBER"),
+
+            TokenType::And => write!(f, "AND"),
+            TokenType::Class => write!(f, "CLASS"),
+            TokenType::Else => write!(f, "ELSE"),
+            TokenType::False => write!(f, "FALSE"),
+            TokenType::Fun => write!(f, "FUN"),
+            TokenType::For => write!(f, "FOR"),
+            TokenType::If => write!(f, "IF"),
+            TokenType::Nil => write!(f, "NIL"),
+            TokenType::Or => write!(f, "OR"),
+            TokenType::Print => write!(f, "PRINT"),
+            TokenType::Return => write!(f, "RETURN"),
+            TokenType::Super => write!(f, "SUPER"),
+            TokenType::This => write!(f, "THIS"),
+            TokenType::True => write!(f, "TRUE"),
+            TokenType::Var => write!(f, "VAR"),
+            TokenType::While => write!(f, "WHILE"),
 
             TokenType::Eof => write!(f, "EOF"),
         }
