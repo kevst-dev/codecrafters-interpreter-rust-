@@ -232,3 +232,26 @@ fn test_tokenize_whitespaces() {
     assert_eq!(token_errors, vec![]);
 }
 
+
+#[test]
+fn test_tokenize_string() {
+    let file_contents = String::from("\"Hello, World!\"");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    println!("Tokens: {:?}", tokens);
+    println!("Errors: {:?}", token_errors);
+
+    let expected_tokens = vec![
+        Token::new(
+            TokenType::String,
+            "\"Hello, World!\"".to_string(),
+            Some("Hello, World!".to_string()),
+            1
+        ),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}
+

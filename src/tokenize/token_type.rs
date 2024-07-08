@@ -28,11 +28,9 @@ pub enum TokenType {
 
     // Literals.
 
-    /*
-    IDENTIFIER,
-    STRING,
-    NUMBER,
-    */
+    // IDENTIFIER,
+    String,
+    // NUMBER,
 
     // Keywords.
 
@@ -84,6 +82,8 @@ impl fmt::Display for TokenType {
             TokenType::GreaterEqual => write!(f, "GREATER_EQUAL"),
             TokenType::Less => write!(f, "LESS"),
             TokenType::LessEqual => write!(f, "LESS_EQUAL"),
+
+            TokenType::String => write!(f, "STRING"),
 
             TokenType::Eof => write!(f, "EOF"),
         }

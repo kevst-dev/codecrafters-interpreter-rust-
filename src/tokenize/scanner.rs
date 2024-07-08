@@ -117,8 +117,13 @@ impl Scanner {
                 self.add_token(token_type, None);
             }
 
-            '\n' => self.line += 1,
             ' ' | '\r' | '\t' => { /* ignore whitespace */ },
+            '\n' => self.line += 1,
+
+            // Literals
+
+            '"' => self.string(),
+
             _ => {
                 self.add_token_error(
                     format!("Unexpected character: {}", c)
@@ -172,5 +177,30 @@ impl Scanner {
         if self.is_at_end() { return '\0'; }
 
         self.source.chars().nth(self.current as usize).unwrap_or('\0')
+    }
+
+    fn string(&mut self) {
+        while self.peek() != '"' && !self.is_at_end() {
+            if self.peek() == '\n' { self.line += 1; }
+
+            self.advance();
+        }
+
+        if self.is_at_end() {
+            self.add_token_error(
+                "Unterminated string.".to_string()
+            );
+
+            return;
+        }
+
+        // The closing ".
+        self.advance();
+
+        // Trim the surrounding quotes.
+        let value = self.source[
+            (self.start as usize + 1)..(self.current as usize - 1)
+        ].to_string();
+        self.add_token(TokenType::String, Some(value));
     }
 }
