@@ -124,6 +124,8 @@ impl Scanner {
 
             '"' => self.string(),
 
+            '0'..='9' => self.number(),
+
             _ => {
                 self.add_token_error(
                     format!("Unexpected character: {}", c)
@@ -179,6 +181,12 @@ impl Scanner {
         self.source.chars().nth(self.current as usize).unwrap_or('\0')
     }
 
+    fn peek_next(&self) -> char {
+        if self.current + 1 >= self.source.len() as u32 { return '\0'; }
+
+        self.source.chars().nth((self.current + 1) as usize).unwrap_or('\0')
+    }
+
     fn string(&mut self) {
         while self.peek() != '"' && !self.is_at_end() {
             if self.peek() == '\n' { self.line += 1; }
@@ -202,5 +210,26 @@ impl Scanner {
             (self.start as usize + 1)..(self.current as usize - 1)
         ].to_string();
         self.add_token(TokenType::String, Some(value));
+    }
+
+    fn number(&mut self) {
+        while self.peek().is_ascii_digit() {
+            self.advance();
+        }
+
+        // Look for a fractional part.
+        if self.peek() == '.' && self.peek_next().is_ascii_digit() {
+            // Consume the "."
+            self.advance();
+
+            while self.peek().is_ascii_digit() {
+                self.advance();
+            }
+        }
+
+        let value = self.source[
+            (self.start as usize)..(self.current as usize)
+        ].to_string();
+        self.add_token(TokenType::Number, Some(value));
     }
 }

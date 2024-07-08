@@ -30,7 +30,7 @@ pub enum TokenType {
 
     // IDENTIFIER,
     String,
-    // NUMBER,
+    Number,
 
     // Keywords.
 
@@ -84,6 +84,7 @@ impl fmt::Display for TokenType {
             TokenType::LessEqual => write!(f, "LESS_EQUAL"),
 
             TokenType::String => write!(f, "STRING"),
+            TokenType::Number => write!(f, "NUMBER"),
 
             TokenType::Eof => write!(f, "EOF"),
         }

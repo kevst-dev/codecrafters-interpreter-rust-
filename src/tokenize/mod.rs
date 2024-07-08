@@ -238,9 +238,6 @@ fn test_tokenize_string() {
     let file_contents = String::from("\"Hello, World!\"");
     let (tokens, token_errors) = tokenize(file_contents);
 
-    println!("Tokens: {:?}", tokens);
-    println!("Errors: {:?}", token_errors);
-
     let expected_tokens = vec![
         Token::new(
             TokenType::String,
@@ -255,3 +252,21 @@ fn test_tokenize_string() {
     assert_eq!(token_errors, vec![]);
 }
 
+#[test]
+fn test_tokenize_number() {
+    let file_contents = String::from("1234.1234");
+    let (tokens, token_errors) = tokenize(file_contents);
+
+    let expected_tokens = vec![
+        Token::new(
+            TokenType::Number,
+            "1234.1234".to_string(),
+            Some("1234.1234".to_string()),
+            1
+        ),
+        Token::new(TokenType::Eof, "".to_string(), None, 1),
+    ];
+
+    assert_eq!(tokens, expected_tokens);
+    assert_eq!(token_errors, vec![]);
+}
