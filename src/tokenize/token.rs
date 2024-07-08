@@ -54,7 +54,7 @@ impl Token {
         let text_literal = match &self.literal {
             Some(LiteralType::String(literal)) => literal.clone(),
             Some(LiteralType::Number(literal)) => format!("{:?}", literal),
-            None => "".to_string(),
+            None => "null".to_string(),
         };
 
         format!(
