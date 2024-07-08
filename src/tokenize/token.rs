@@ -26,7 +26,7 @@ impl Token {
         let text_literal = literal.unwrap_or("null".to_string());
 
         format!(
-            "{} {} {}",
+            "{} {} {:?}",
             self.token_type,
             self.lexeme,
             text_literal,
